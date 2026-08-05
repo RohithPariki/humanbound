@@ -4,9 +4,12 @@
 
 import fnmatch
 import json
+import logging
 import re
 from pathlib import Path
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 
 class RepoScanner:
@@ -176,8 +179,8 @@ class RepoScanner:
             elif suffix in (".yaml", ".yml"):
                 tools = self._extract_tools_from_yaml(content)
 
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning(f"Failed to extract tools: {e}", exc_info=True)
 
         return tools
 
@@ -283,8 +286,8 @@ class RepoScanner:
                             }
                         )
 
-        except json.JSONDecodeError:
-            pass
+        except json.JSONDecodeError as e:
+            logger.warning(f"Failed to decode JSON tool file: {e}")
 
         return tools
 
@@ -320,7 +323,7 @@ class RepoScanner:
         except ImportError:
             # PyYAML not installed, skip YAML parsing
             pass
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning(f"Failed to extract tools from YAML: {e}", exc_info=True)
 
         return tools
