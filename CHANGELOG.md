@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- **CLI export commands write sensitive test artifacts securely.** Previously, `hb logs`, `hb guardrails`, and `hb findings` exported files with global read permissions. They now correctly use `0600` owner-only permissions.
 - **`hb guardrails` now exports rules from local test results.** Local runs
   store insights beneath `results.insights`, but the exporter only read the
   legacy top-level key and consequently emitted an empty ruleset. The exporter

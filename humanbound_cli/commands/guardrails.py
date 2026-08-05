@@ -11,6 +11,7 @@ from rich.console import Console
 from .. import telemetry
 from ..engine import get_runner
 from ..engine.platform_runner import PlatformTestRunner
+from ..config import write_secure_file
 from ..exceptions import APIError, NotAuthenticatedError
 
 console = Console()
@@ -105,7 +106,7 @@ def guardrails_command(
 
         # Output
         if output:
-            Path(output).write_text(formatted)
+            write_secure_file(output, formatted)
             console.print(f"[green]Guardrails exported to:[/green] {output}")
             console.print(f"[dim]Vendor: {vendor}[/dim]")
             console.print(f"[dim]Format: {output_format}[/dim]")
@@ -186,7 +187,7 @@ def _local_guardrails(output, output_format, vendor):
         formatted = json.dumps(guardrails, indent=2, default=str)
 
     if output:
-        Path(output).write_text(formatted)
+        write_secure_file(output, formatted)
         console.print(f"[green]Guardrails exported to:[/green] {output}")
         console.print(f"[dim]Rules: {len(rules)} | Source: {exp_dirs[0].name}[/dim]")
     else:
