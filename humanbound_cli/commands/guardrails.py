@@ -9,9 +9,9 @@ import click
 from rich.console import Console
 
 from .. import telemetry
+from ..config import write_secure_file
 from ..engine import get_runner
 from ..engine.platform_runner import PlatformTestRunner
-from ..config import write_secure_file
 from ..exceptions import APIError, NotAuthenticatedError
 
 console = Console()
