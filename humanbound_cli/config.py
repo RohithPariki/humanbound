@@ -41,7 +41,10 @@ def write_secure_file(path, content: str) -> None:
     """
     path = Path(path)
 
-    fd, tmp = tempfile.mkstemp(dir=str(path.parent), prefix=f".{path.name}.", suffix=".tmp")
+    try:
+        fd, tmp = tempfile.mkstemp(dir=str(path.parent), prefix=f".{path.name}.", suffix=".tmp")
+    except FileNotFoundError as e:
+        raise FileNotFoundError(f"Output directory does not exist: {path.parent}") from e
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as handle:
             handle.write(content)
